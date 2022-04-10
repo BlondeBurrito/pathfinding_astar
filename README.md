@@ -204,3 +204,28 @@ let main_road_traffic_weight = 15.0; // very busy
 let dirt_road_weight = dirt_road_base_weight + dirt_road_traffic_weight;
 let main_road_weight = main_road_base_weight + main_road_traffic_weight;
 ```
+
+A full abstract example may look:
+
+<img src="docs/abstract_example.png" alt="abs" width="370"/>
+
+We start at node `S` (label 0) and wish to reach node `E` (label `9`). Each node has a weight `W` and each line has a distance `d`. We can construct the required data thus:
+
+```rust
+let start_node: i32 = 0;
+let end_node: i32 = 9;
+let mut nodes: HashMap<i32, (Vec<(i32, f32)>, f32)> = HashMap::new();
+nodes.insert(0, (vec![(1, 15.0), (2, 20.0), (3, 40.0)], 1.0));
+nodes.insert(1, (vec![(4, 8.0), (2, 10.0), (0, 15.0)], 3.0));
+nodes.insert(2, (vec![(1, 10.0), (6, 5.0), (5, 9.0), (0, 20.0)], 2.0));
+nodes.insert(3, (vec![(5, 2.0), (0, 40.0)], 3.0));
+nodes.insert(4, (vec![(6, 13.0), (1, 8.0)], 7.0));
+nodes.insert(5, (vec![(2, 9.0), (3, 2.0)], 1.0));
+nodes.insert(6, (vec![(7, 9.0), (8, 1.0), (4, 13.0), (2, 5.0)], 9.0));
+nodes.insert(7, (vec![(8, 7.0), (6, 9.0)], 3.0));
+nodes.insert(8, (vec![(7, 7.0), (6, 1.0), (9, 4.0)], 3.0));
+nodes.insert(9, (vec![(8, 4.0)], 6.0));
+let path = astar_path(start_node, nodes, end_node).unwrap();
+let actual = vec![0, 2, 6, 8, 9];
+assert_eq!(actual, path);
+```

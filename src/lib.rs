@@ -295,6 +295,25 @@ mod tests {
 		assert_eq!(actual, path);
 	}
 	#[test]
+	fn abstract_example() {
+		let start_node: i32 = 0;
+		let end_node: i32 = 9;
+		let mut nodes: HashMap<i32, (Vec<(i32, f32)>, f32)> = HashMap::new();
+		nodes.insert(0, (vec![(1, 15.0), (2, 20.0), (3, 40.0)], 1.0));
+		nodes.insert(1, (vec![(4, 8.0), (2, 10.0), (0, 15.0)], 3.0));
+		nodes.insert(2, (vec![(1, 10.0), (6, 5.0), (5, 9.0), (0, 20.0)], 2.0));
+		nodes.insert(3, (vec![(5, 2.0), (0, 40.0)], 3.0));
+		nodes.insert(4, (vec![(6, 13.0), (1, 8.0)], 7.0));
+		nodes.insert(5, (vec![(2, 9.0), (3, 2.0)], 1.0));
+		nodes.insert(6, (vec![(7, 9.0), (8, 1.0), (4, 13.0), (2, 5.0)], 9.0));
+		nodes.insert(7, (vec![(8, 7.0), (6, 9.0)], 3.0));
+		nodes.insert(8, (vec![(7, 7.0), (6, 1.0), (9, 4.0)], 3.0));
+		nodes.insert(9, (vec![(8, 4.0)], 6.0));
+		let path = astar_path(start_node, nodes, end_node).unwrap();
+		let actual = vec![0, 2, 6, 8, 9];
+		assert_eq!(actual, path);
+	}
+	#[test]
 	/// Calcualtes the best path from S to E simulating a hexagonal grid (distance from one hexagon to another is the same assuming a path orthognal to an edge, we use unit size of 1.0 for distance)
 	///```txt
 	///                 _________               _________
