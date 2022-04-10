@@ -1,0 +1,20 @@
+[package]
+name = "pathfinding_astar"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.60"
+authors = ["BlondeBurrito"]
+description = "An implementation of the A-Star pathfinding algorithm that can process absract and grid-like paths"
+readme = "README.md"
+homepage = "https://github.com/BlondeBurrito/pathfinding_astar"
+repository = "https://github.com/BlondeBurrito/pathfinding_astar"
+license = "MIT OR Apache-2.0"
+keywords = ["pathfinding", "astar", "a-star", "gamedev"]
+exclude = [
+    ".github/**",
+    "justfile",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
