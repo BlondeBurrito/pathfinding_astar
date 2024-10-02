@@ -22,7 +22,7 @@ let max_row = 4;
 let orientation = HexOrientation::FlatTopOddUp;
 let path = astar_path(
     start_node,
-    nodes,
+    &nodes,
     end_node,
     min_column,
     max_column,
@@ -110,7 +110,7 @@ So in general choose a type `T` to label each of your nodes, specify your starti
 ```rust
 pub fn astar_path<T>(
 	start_node: T,
-	nodes: HashMap<T, (Vec<(T, f32)>, f32)>,
+	nodes: &HashMap<T, (Vec<(T, f32)>, f32)>,
 	end_node: T,
 ) -> Option<Vec<T>>
 ```
@@ -153,7 +153,7 @@ nodes.insert(0, (vec![(4, 1.0), (1, 1.0)], 1.0));
 nodes.insert(1, (vec![(5, 1.0), (2, 1.0), (0, 1.0)], 7.0));
 nodes.insert(2, (vec![(6, 1.0), (3, 1.0), (1, 1.0)], 3.0));
 // snip - the rest of this data is in the test `grid_like_path()`
-let path = astar_path(start, nodes, end).unwrap();
+let path = astar_path(start, &nodes, end).unwrap();
 let actual = vec![0, 4, 8, 9, 10, 11, 15];
 assert_eq!(actual, path);
 ```
@@ -225,7 +225,7 @@ nodes.insert(6, (vec![(7, 9.0), (8, 1.0), (4, 13.0), (2, 5.0)], 9.0));
 nodes.insert(7, (vec![(8, 7.0), (6, 9.0)], 3.0));
 nodes.insert(8, (vec![(7, 7.0), (6, 1.0), (9, 4.0)], 3.0));
 nodes.insert(9, (vec![(8, 4.0)], 6.0));
-let path = astar_path(start_node, nodes, end_node).unwrap();
+let path = astar_path(start_node, &nodes, end_node).unwrap();
 let actual = vec![0, 2, 6, 8, 9];
 assert_eq!(actual, path);
 ```

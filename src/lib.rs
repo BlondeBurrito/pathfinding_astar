@@ -47,12 +47,12 @@ use std::{collections::HashMap, fmt::Debug, hash::Hash};
 /// nodes.insert(0, (vec![(1, 5.0)], 3.0));
 /// nodes.insert(1, (vec![(0, 5.0), (2, 4.0)], 2.0));
 /// nodes.insert(2, (vec![(1, 4.0)], 6.0));
-/// let path = astar_path(start, nodes, end).unwrap();
+/// let path = astar_path(start, &nodes, end).unwrap();
 /// assert_eq!(vec![0, 1, 2], path);
 /// ```
 pub fn astar_path<T>(
 	start_node: T,
-	nodes: HashMap<T, (Vec<(T, f32)>, f32)>,
+	nodes: &HashMap<T, (Vec<(T, f32)>, f32)>,
 	end_node: T,
 ) -> Option<Vec<T>>
 where
@@ -212,7 +212,7 @@ mod tests {
 		nodes.insert((0, 2), (vec![((0, 3), 20.0)], 1.0)); // O2
 		nodes.insert((0, 3), (vec![], 2.0)); // E
 		let end: (i32, i32) = (0, 3);
-		let path = astar_path(start, nodes, end).unwrap();
+		let path = astar_path(start, &nodes, end).unwrap();
 		let actual_path = vec![(0, 0), (0, 2), (0, 3)];
 		assert_eq!(actual_path, path);
 	}
@@ -224,7 +224,7 @@ mod tests {
 		let end = (0, 1);
 		let mut nodes: HashMap<(i32, i32), (Vec<((i32, i32), f32)>, f32)> = HashMap::new();
 		nodes.insert((0, 1), (vec![((0, 3), 4.0)], 4.0));
-		let _path = astar_path(start, nodes, end);
+		let _path = astar_path(start, &nodes, end);
 	}
 	#[test]
 	#[should_panic]
@@ -234,7 +234,7 @@ mod tests {
 		let end = (0, 1);
 		let mut nodes: HashMap<(i32, i32), (Vec<((i32, i32), f32)>, f32)> = HashMap::new();
 		nodes.insert((0, 0), (vec![((0, 3), 4.0)], 4.0));
-		let _path = astar_path(start, nodes, end);
+		let _path = astar_path(start, &nodes, end);
 	}
 	#[test]
 	/// Test for `None` indicating that no path exists to the end node
@@ -249,7 +249,7 @@ mod tests {
 		nodes.insert(4, (vec![(2, 1.0)], 2.0));
 		// while end node `5` contains a path backwards to node `4`, `4` itself doesn't have a path to it in the first place
 		nodes.insert(5, (vec![(4, 3.0)], 6.0));
-		let path = astar_path(start, nodes, end);
+		let path = astar_path(start, &nodes, end);
 		assert_eq!(None, path);
 	}
 	#[test]
@@ -290,7 +290,7 @@ mod tests {
 		nodes.insert(14, (vec![(15, 1.0), (10, 1.0), (13, 1.0)], 9.0));
 		nodes.insert(15, (vec![(11, 1.0), (14, 1.0)], 4.0));
 
-		let path = astar_path(start, nodes, end).unwrap();
+		let path = astar_path(start, &nodes, end).unwrap();
 		let actual = vec![0, 4, 8, 9, 10, 11, 15];
 		assert_eq!(actual, path);
 	}
@@ -309,7 +309,7 @@ mod tests {
 		nodes.insert(7, (vec![(8, 7.0), (6, 9.0)], 3.0));
 		nodes.insert(8, (vec![(7, 7.0), (6, 1.0), (9, 4.0)], 3.0));
 		nodes.insert(9, (vec![(8, 4.0)], 6.0));
-		let path = astar_path(start_node, nodes, end_node).unwrap();
+		let path = astar_path(start_node, &nodes, end_node).unwrap();
 		let actual = vec![0, 2, 6, 8, 9];
 		assert_eq!(actual, path);
 	}
@@ -477,7 +477,7 @@ mod tests {
 		);
 		nodes.insert((3, 3), (vec![((3, 2), 1.0), ((2, 3), 1.0)], 2.0));
 		let end_node: (i32, i32) = (3, 3);
-		let path = astar_path(start_node, nodes, end_node).unwrap();
+		let path = astar_path(start_node, &nodes, end_node).unwrap();
 		let actual = vec![(0, 0), (1, 0), (2, 1), (3, 1), (3, 2), (3, 3)];
 		assert_eq!(actual, path);
 	}
@@ -645,7 +645,7 @@ mod tests {
 		);
 		nodes.insert((3, 3), (vec![((3, 2), 1.0), ((2, 3), 1.0)], 2.0));
 		let end_node: (i32, i32) = (0, 0);
-		let path = astar_path(start_node, nodes, end_node).unwrap();
+		let path = astar_path(start_node, &nodes, end_node).unwrap();
 		let actual = vec![(3, 3), (3, 2), (3, 1), (2, 1), (1, 0), (0, 0)];
 		assert_eq!(actual, path);
 	}
