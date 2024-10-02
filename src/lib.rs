@@ -50,6 +50,7 @@ use std::{collections::HashMap, fmt::Debug, hash::Hash};
 /// let path = astar_path(start, &nodes, end).unwrap();
 /// assert_eq!(vec![0, 1, 2], path);
 /// ```
+#[allow(clippy::type_complexity)]
 pub fn astar_path<T>(
 	start_node: T,
 	nodes: &HashMap<T, (Vec<(T, f32)>, f32)>,
@@ -129,7 +130,7 @@ where
 					// Search the queue to see if we already have a route to this node.
 					// If we do but this new path is better then replace it, otherwise discard
 					let mut new_queue_item_required_for_node = true;
-					for mut q in queue.iter_mut() {
+					for q in queue.iter_mut() {
 						if q.0 == n.0 {
 							// If existing score is worse (higher) then replace the queue item and
 							// don't allow a fresh queue item to be added
@@ -171,7 +172,7 @@ where
 
 		// As the `queue` is processed elements are removed, neighbours discovered and scores calculated.
 		//If the `queue` length becomes zero then it means there are no routes to the `end_node` and we return `None`
-		if queue.len() == 0 {
+		if queue.is_empty() {
 			return None;
 		}
 	}
@@ -204,6 +205,7 @@ mod tests {
 	///             O2 ---------------------> E
 	///        W:1          Length:20            W:2
 	///  ```
+	#[allow(clippy::type_complexity)]
 	fn readme_what_is_a_star_example() {
 		let start: (i32, i32) = (0, 0);
 		let mut nodes: HashMap<(i32, i32), (Vec<((i32, i32), f32)>, f32)> = HashMap::new();
@@ -219,6 +221,7 @@ mod tests {
 	#[test]
 	#[should_panic]
 	/// Expect a panic if the `nodes` data set doesn't contain the starting node
+	#[allow(clippy::type_complexity)]
 	fn missing_start_node() {
 		let start = (0, 0);
 		let end = (0, 1);
@@ -229,6 +232,7 @@ mod tests {
 	#[test]
 	#[should_panic]
 	/// Expect a panic if the `nodes` data set doesn't contain the end node
+	#[allow(clippy::type_complexity)]
 	fn missing_end_node() {
 		let start = (0, 0);
 		let end = (0, 1);
@@ -238,6 +242,7 @@ mod tests {
 	}
 	#[test]
 	/// Test for `None` indicating that no path exists to the end node
+	#[allow(clippy::type_complexity)]
 	fn no_path_exists() {
 		let start = 0;
 		let end = 5;
@@ -345,6 +350,7 @@ mod tests {
 	///   \    W:1    /           \    W:2    /
 	///    \_________/             \_________/
 	///  ```
+	#[allow(clippy::type_complexity)]
 	fn astar_hexagon_up_right() {
 		let start_node: (i32, i32) = (0, 0);
 		let mut nodes: HashMap<(i32, i32), (Vec<((i32, i32), f32)>, f32)> = HashMap::new();
@@ -513,6 +519,7 @@ mod tests {
 	///   \    W:1    /           \    W:2    /
 	///    \_________/             \_________/
 	///  ```
+	#[allow(clippy::type_complexity)]
 	fn astar_hexagon_down_left() {
 		let start_node: (i32, i32) = (3, 3);
 		let mut nodes: HashMap<(i32, i32), (Vec<((i32, i32), f32)>, f32)> = HashMap::new();
